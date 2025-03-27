@@ -64,7 +64,7 @@ def fetch_bitcoin_data(start_date='2015-01-01', end_date=None):
     btc.reset_index(inplace=True)
     btc.rename(columns={'Date': 'date', 'Close': 'bitcoin_price'}, inplace=True)
     logging.info(f"Successfully fetched {len(btc)} rows of Bitcoin data")
-    return btc[['date', 'bitcoin_price']]
+    return btc #[['date', 'bitcoin_price']]
 
 # ==============================================
 # yfinance (for DXY - US Dollar Index)
@@ -84,7 +84,7 @@ def fetch_dxy_data(start_date='2015-01-01', end_date=None):
     dxy.reset_index(inplace=True)
     dxy.rename(columns={'Date': 'date', 'Close': 'dxy'}, inplace=True)
     logging.info(f"Successfully fetched {len(dxy)} rows of DXY data")
-    return dxy[['date', 'dxy']]
+    return dxy#[['date', 'dxy']]
 
 # ==============================================
 # Fetch All Data
