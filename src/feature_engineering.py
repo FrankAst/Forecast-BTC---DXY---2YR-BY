@@ -84,16 +84,7 @@ def add_rolling_features(df, window, exclude_columns=None, ema_span=None):
     return df_new
 
 
-def training_strategy(df, train_up_to_date, number_of_val_windows, window_length = 7 ):
-    
-    '''
-    train_up_to_date: lista con inicios de CV.
-    number_of_val_windows: cantidad de ventanas a evaluar en cada CV.
-    window_length: cantidad de dias en la ventana de evaluacion.
-    '''
-    # crear train / tests splits
-    
-    
+
     
     
     
@@ -107,6 +98,7 @@ def training_strategy(df, train_up_to_date, number_of_val_windows, window_length
     
     
     return
+
 
 
 

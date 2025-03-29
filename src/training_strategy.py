@@ -73,7 +73,6 @@ def training_strategy(df, target, train_up_to_date = ["2024-12-31"], number_of_v
     '''
     Definir training set. Hasta 2024 incluido por default.
     Definir set de validacion en 2025 ~ 8 semanas = 2 meses por defecto.
-    Definir final test set 2025
     Definir future set 2025 (target es NaN)
     '''
     
