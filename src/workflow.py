@@ -4,6 +4,8 @@ import pandas as pd
 from feature_engineering import *
 from training_strategy import *
 from bayesian_opt import *
+from cross_validation_training import *
+from final_train import *
 
 # Loading my API_KEY
 from dotenv import load_dotenv, find_dotenv
@@ -17,7 +19,6 @@ if __name__ == "main":
     
     # Fecha final dataset de entramiento BO
     last_date = pd.to_datetime("2024-12-31 00:00:00")
-    
     
     
     ## Leo el dataset
@@ -50,12 +51,28 @@ if __name__ == "main":
                                         target = "bitcoin_price_7d_future",
                                         seed = SEED) 
     
-    ## CV
-    predictions = cv_training()
-    
-    ## Metricas
-    results = eval(predictions, target)
+    ## CV y metricas
+    results, predictions = cv_training(params = best_params, splits = splits, target = "bitcoin_price_7d_future", seed = SEED )
     
     
-
-    pass
+    
+    # Final train
+    ## Sets
+    train_final, future = training_strategy(df, target = "bitcoin_price_7d_future", final_train = True)
+    
+    train_final_bo = train_final.iloc[:-7]
+    val_final_bo = train_final.iloc[-7:]
+    
+    ## BO
+    final_best_params = bayesian_optimization(nr_trials = 50,
+                                              train_set = train_final_bo,
+                                              val_set = val_final_bo,
+                                              target = "bitcoin_price_7d_future",
+                                              seed = SEED)
+    
+    future_predictions = final_training(train_final_bo, val_final_bo, future, final_best_params, target = "bitcoin_price_7d_future", seed = SEED)
+    
+    
+    
+    
+    

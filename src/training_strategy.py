@@ -68,12 +68,16 @@ def walk_forward_splits(df, train_up_to_date, number_of_val_windows, window_leng
     return cv_splits
 
 
-def training_strategy(df, target, train_up_to_date = ["2024-12-31"], number_of_val_windows = 8):
+def training_strategy(df, target, train_up_to_date = ["2024-12-31"], final_train = False, number_of_val_windows = 8):
     
     '''
     Definir training set. Hasta 2024 incluido por default.
     Definir set de validacion en 2025 ~ 8 semanas = 2 meses por defecto.
     Definir future set 2025 (target es NaN)
+    
+    
+    Si final_train = True, devuele un traininig set con todos los datos disponibles menos los ultimos 7 registros
+    que se utilizaran para validar el entranamiento. 
     '''
     
     # Create future_set with rows where the target column is NaN
@@ -86,12 +90,17 @@ def training_strategy(df, target, train_up_to_date = ["2024-12-31"], number_of_v
     # Generamos los splits de train y splits para CV walk forward.     
     cv_splits = walk_forward_splits(available_data, train_up_to_date, number_of_val_windows)
     
-    return cv_splits , future_set
+    if final_train: 
+        
+        return available_data, future_set
+    else:
+        return cv_splits , future_set
     
     
     
 
 
+    
 
 
 

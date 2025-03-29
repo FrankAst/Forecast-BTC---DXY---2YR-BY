@@ -51,7 +51,8 @@ def bayesian_optimization(train_set, val_set, target,seed, nr_trials = 50):
     y_val = val_set[target]
     
     # Creamos el study
-    study = optuna.create_study(direction='minimize')
+    sampler = optuna.samplers.TPESampler(seed=seed)
+    study = optuna.create_study(direction='minimize', sampler = sampler)
     study.optimize(lambda trial: objective(trial, X_train, y_train, X_val, y_val, seed = seed), n_trials = nr_trials)  # Increase n_trials for more thorough search
 
     # Extract the best hyperparameters
