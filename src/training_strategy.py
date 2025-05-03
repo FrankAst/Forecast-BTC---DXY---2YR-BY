@@ -77,7 +77,7 @@ def training_strategy(df, target, train_up_to_date = ["2024-12-31"], final_train
     
     
     Si final_train = True, devuele un traininig set con todos los datos disponibles menos los ultimos 7 registros
-    que se utilizaran para validar el entranamiento. 
+    que se utilizaran para validar el entrenamiento. 
     '''
     
     # Create future_set with rows where the target column is NaN

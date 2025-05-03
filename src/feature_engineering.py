@@ -20,7 +20,10 @@ def add_lags(df, num_lags, exclude_columns=None, delta=False):
         pd.DataFrame: DataFrame with additional lagged columns (and delta columns if delta=True).
     """
     if exclude_columns is None:
-        exclude_columns = ['date', 'Year', 'quarter', 'month', 'dayofyear', 'dayofweek']
+        exclude_columns = ['date', 'Year', 'quarter', 'month',
+                           'dayofyear', 'dayofweek', 'bitcoin_price_7d_future',
+                           'bitcoin_price_7d_log_return', 'fng_classification']
+    
     
     df_with_lags = df.copy()
     
@@ -28,20 +31,19 @@ def add_lags(df, num_lags, exclude_columns=None, delta=False):
     cols_to_lag = [col for col in df.columns 
                    if col not in exclude_columns and '_lag' not in col]
     
-    for lag in range(1, num_lags + 1):
-        # Create shifted columns for the selected variables
-        shifted = df[cols_to_lag].shift(lag)
-        lagged_names = [f'{col}_lag{lag}' for col in shifted.columns]
-        shifted.columns = lagged_names
-        df_with_lags = pd.concat([df_with_lags, shifted], axis=1)
-        
-        # Optionally compute delta lags (difference between current and lagged values)
-        if delta:
-            # Use the underlying numpy arrays to subtract, so that column names don't interfere.
-            delta_values = df[cols_to_lag].values - shifted.values
-            delta_names = [f'{col}_delta_lag{lag}' for col in cols_to_lag]
-            delta_df = pd.DataFrame(delta_values, index=df.index, columns=delta_names)
-            df_with_lags = pd.concat([df_with_lags, delta_df], axis=1)
+     # Only add the single lag specified by num_lags
+    lag = num_lags
+    shifted = df[cols_to_lag].shift(lag)
+    lagged_names = [f'{col}_lag{lag}' for col in shifted.columns]
+    shifted.columns = lagged_names
+    df_with_lags = pd.concat([df_with_lags, shifted], axis=1)
+
+    # Optionally compute delta lags (difference between current and lagged values)
+    if delta:
+        delta_values = df[cols_to_lag].values - shifted.values
+        delta_names = [f'{col}_delta_lag{lag}' for col in cols_to_lag]
+        delta_df = pd.DataFrame(delta_values, index=df.index, columns=delta_names)
+        df_with_lags = pd.concat([df_with_lags, delta_df], axis=1)
     
     return df_with_lags
 
@@ -61,7 +63,10 @@ def add_rolling_features(df, window, exclude_columns=None, ema_span=None):
         pd.DataFrame: DataFrame with original columns plus new rolling and EMA feature columns.
     """
     if exclude_columns is None:
-        exclude_columns = ['date', 'Year', 'quarter', 'month', 'dayofyear', 'dayofweek']
+        exclude_columns = ['date', 'Year', 'quarter', 'month',
+                           'dayofyear', 'dayofweek', 'bitcoin_price_7d_future',
+                           'bitcoin_price_7d_log_return', 'fng_classification']
+    
         
     if ema_span is None:
         ema_span = window  # Default EMA span to the rolling window size

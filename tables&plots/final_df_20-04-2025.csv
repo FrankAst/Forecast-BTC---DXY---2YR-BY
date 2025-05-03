@@ -1,0 +1,15 @@
+date,bitcoin_price,label,real_data,% difference
+2025-04-13,83684.98,true_data,,
+2025-04-14,84542.39,true_data,,
+2025-04-15,83668.99,true_data,,
+2025-04-16,84033.87,true_data,,
+2025-04-17,84895.75,true_data,,
+2025-04-18,84450.8,true_data,,
+2025-04-19,85063.41,true_data,,
+2025-04-20,84874.86,prediction,85167.0,0.34
+2025-04-21,85528.41,prediction,,
+2025-04-22,86216.49,prediction,,
+2025-04-23,84751.32,prediction,,
+2025-04-24,87256.77,prediction,,
+2025-04-25,87205.44,prediction,,
+2025-04-26,87842.78,prediction,,
